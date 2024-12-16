@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hdc</title>
+</head>
+<script>
+    let saldo = 1000;
+    const senhaCorreta = "3589";
+    let extrato = [
+        { tipo: "Depósito", valor: 500 },
+        { tipo: "Compra", valor: -150 },
+        { tipo: "Compra", valor: -200 },
+    ];
+
+    const nomeUsuario = prompt("Qual o seu nome?");
+    alert(`Olá ${nomeUsuario}, é um prazer ter você por aqui!`);
+
+    // Funções
+    function validarSenha() {
+        const senha = prompt("Por favor, informe sua senha:");
+        return senha === senhaCorreta;
+    }
+
+    function exibirMenu() {
+        return prompt(
+            `Menu Principal:
+        1. Saldo
+        2. Extrato
+        3. Saque
+        4. Depósito
+        5. Transferência
+        6. Sair
+        Escolha uma opção:`
+        );
+    }
+
+    function mostrarSaldo() {
+        if (validarSenha()) {
+            alert(`Seu saldo atual é: R$${saldo.toFixed(2)}`);
+        } else {
+            alert("Senha incorreta. Tente novamente.");
+            mostrarSaldo();
+        }
+    }
+
+    function mostrarExtrato() {
+        if (validarSenha()) {
+            let detalhesExtrato = "Extrato:\n";
+            extrato.forEach((item, index) => {
+                detalhesExtrato += `${index + 1}. ${item.tipo}: R$${item.valor.toFixed(2)}\n`;
+            });
+            alert(detalhesExtrato);
+        } else {
+            alert("Senha incorreta. Tente novamente.");
+            mostrarExtrato();
+        }
+    }
+
+    function sacarDinheiro() {
+        if (validarSenha()) {
+            const valor = parseFloat(prompt("Informe o valor para saque:"));
+            if (valor <= 0) {
+                alert("Operação não autorizada. O valor deve ser maior que zero.");
+            } else if (valor > saldo) {
+                alert("Operação não autorizada. Saldo insuficiente.");
+            } else {
+                saldo -= valor;
+                extrato.push({ tipo: "Saque", valor: -valor });
+                alert(`Saque realizado com sucesso! Saldo atual: R$${saldo.toFixed(2)}`);
+            }
+        } else {
+            alert("Senha incorreta. Tente novamente.");
+            sacarDinheiro();
+        }
+    }
+
+    function depositarDinheiro() {
+        const valor = parseFloat(prompt("Informe o valor para depósito:"));
+        if (valor <= 0) {
+            alert("Operação não autorizada. O valor deve ser maior que zero.");
+        } else {
+            saldo += valor;
+            extrato.push({ tipo: "Depósito", valor: valor });
+            alert(`Depósito realizado com sucesso! Saldo atual: R$${saldo.toFixed(2)}`);
+        }
+    }
+
+    function transferirDinheiro() {
+        if (validarSenha()) {
+            const conta = prompt("Informe o número da conta para transferência:");
+            if (!/^\d+$/.test(conta)) {
+                alert("Operação não autorizada. O número da conta deve conter apenas dígitos.");
+                return;
+            }
+
+            const valor = parseFloat(prompt("Informe o valor para transferência:"));
+            if (valor <= 0) {
+                alert("Operação não autorizada. O valor deve ser maior que zero.");
+            } else if (valor > saldo) {
+                alert("Operação não autorizada. Saldo insuficiente.");
+            } else {
+                saldo -= valor;
+                extrato.push({ tipo: `Transferência para conta ${conta}`, valor: -valor });
+                alert(`Transferência realizada com sucesso! Saldo atual: R$${saldo.toFixed(2)}`);
+            }
+        } else {
+            alert("Senha incorreta. Tente novamente.");
+            transferirDinheiro();
+        }
+    }
+
+    function sairDoSistema() {
+        alert(`${nomeUsuario}, foi um prazer ter você por aqui!`);
+    }
+
+    function inicio() {
+        let opcao;
+        do {
+            opcao = exibirMenu();
+            switch (opcao) {
+                case "1":
+                    mostrarSaldo();
+                    break;
+                case "2":
+                    mostrarExtrato();
+                    break;
+                case "3":
+                    sacarDinheiro();
+                    break;
+                case "4":
+                    depositarDinheiro();
+                    break;
+                case "5":
+                    transferirDinheiro();
+                    break;
+                case "6":
+                    sairDoSistema();
+                    break;
+                default:
+                    alert("Opção inválida. Tente novamente.");
+            }
+        } while (opcao !== "6");
+    }
+
+    inicio();
+
+</script>
+
+<body>
+    <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/897490012&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+    <div
+        style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;">
+        <a href="https://soundcloud.com/tim-maia-official" title="Tim Maia" target="_blank"
+            style="color: #cccccc; text-decoration: none;">Tim Maia</a> · <a
+            href="https://soundcloud.com/tim-maia-official/azul-da-cor-do-mar-ao-vivo"
+            title="Azul da Cor do Mar (Ao Vivo)" target="_blank" style="color: #cccccc; text-decoration: none;">Azul da
+            Cor do Mar (Ao Vivo)</a></div>
+
+            <center><img src="https://i.pinimg.com/originals/59/92/2a/59922a4e1136646964b42659fb429d0b.gif" alt="tim maia"></center>
+</body>
+
+</html>
